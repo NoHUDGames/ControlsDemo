@@ -30,7 +30,9 @@ void AControls1::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AControls1::MoveForward);
-	PlayerInputComponent->BindAxis("Strafe", this, &AControls1::Strafe);
+	PlayerInputComponent->BindAxis("MoveRight", this, &AControls1::MoveRight);
+	PlayerInputComponent->BindAxis("MoveDown", this, &AControls1::MoveBackwards);
+	PlayerInputComponent->BindAxis("MoveLeft", this, &AControls1::MoveLeft);
 	PlayerInputComponent->BindAxis("Rotate", this, &AControls1::Rotate);
 
 }
@@ -43,15 +45,29 @@ void AControls1::MoveForward(float AxisValue)
 
 }
 
+void AControls1::MoveBackwards(float AxisValue)
+{
+	FVector Back = GetActorForwardVector();
+
+	AddMovementInput(Back, -AxisValue);
+}
+
 void AControls1::Rotate(float AxisValue)
 {
 	AddControllerYawInput(AxisValue);
 }
 
-void AControls1::Strafe(float AxisValue)
+void AControls1::MoveRight(float AxisValue)
 {
 	FVector Right = GetActorRightVector();
 
 	AddMovementInput(Right, AxisValue);
+}
+
+void AControls1::MoveLeft(float AxisValue)
+{
+	FVector Left = -GetActorRightVector();
+
+	AddMovementInput(Left, AxisValue);
 }
 

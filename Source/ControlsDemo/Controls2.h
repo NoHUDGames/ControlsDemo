@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Controls1.generated.h"
+#include "Controls2.generated.h"
 
 UCLASS()
-class CONTROLSDEMO_API AControls1 : public ACharacter
+class CONTROLSDEMO_API AControls2 : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	AControls1();
+	AControls2();
 
 protected:
 	// Called when the game starts or when spawned
@@ -26,14 +26,4 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void MoveForward(float AxisValue);
-
-	void MoveBackwards(float AxisValue);
-
-	void MoveRight(float AxisValue);
-
-	void MoveLeft(float AxisValue);
-
-	void Rotate(float AxisValue);
-	
 };
