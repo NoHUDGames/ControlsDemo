@@ -2,6 +2,9 @@
 
 #include "Controls2.h"
 #include "Components/InputComponent.h"
+#include "GameFramework/PlayerController.h"
+#include "Engine/World.h"
+
 
 // Sets default values
 AControls2::AControls2()
@@ -23,7 +26,24 @@ void AControls2::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (Controller != NULL)
+	{
+		FVector mouseLocation;
+		FVector mouseDirection;
+		
+		/// vil ha denne i header fila, slik at jeg kan gjøre curseren synlig i BeginPlay funksjonen
+		APlayerController* playerController = Cast<APlayerController>(GetController());
+		playerController->DeprojectMousePositionToWorld(mouseLocation, mouseDirection);
+		
+
+		FRotator currentCharacterRotation = this->GetActorRotation();
+		FRotator targetRotation = mouseDirection.Rotation();
+
+		FRotator newRotation = FRotator(currentCharacterRotation.Pitch, targetRotation.Yaw, currentCharacterRotation.Roll);
+		this->SetActorRotation(newRotation);
+	}
 }
+
 
 // Called to bind functionality to input
 void AControls2::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -34,8 +54,8 @@ void AControls2::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	PlayerInputComponent->BindAxis("MoveRight", this, &AControls2::MoveRight);
 	PlayerInputComponent->BindAxis("MoveDown", this, &AControls2::MoveBackwards);
 	PlayerInputComponent->BindAxis("MoveLeft", this, &AControls2::MoveLeft);
-	PlayerInputComponent->BindAxis("RotateX", this, &AControls2::Rotate);
-	PlayerInputComponent->BindAxis("RotateY", this, &AControls2::Rotate);
+	/// PlayerInputComponent->BindAxis("RotateX", this, &AControls2::Rotate);
+	/// PlayerInputComponent->BindAxis("RotateY", this, &AControls2::Rotate);
 
 }
 

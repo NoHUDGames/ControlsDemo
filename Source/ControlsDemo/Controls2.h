@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "GameFramework/PlayerController.h"
 #include "Controls2.generated.h"
 
 UCLASS()
@@ -25,6 +26,7 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
 
 private:
 	void MoveForward(float AxisValue);
@@ -36,5 +38,7 @@ private:
 	void MoveLeft(float AxisValue);
 
 	void Rotate(float AxisValue);
+
+	
 
 };
