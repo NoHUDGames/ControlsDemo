@@ -18,7 +18,19 @@ AControls2::AControls2()
 void AControls2::BeginPlay()
 {
 	Super::BeginPlay();
+
+	playerController = Cast<APlayerController>(GetController());
 	
+	if (playerController)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Fant playerController i BeginPlay"))
+			playerController->bShowMouseCursor = true;
+	}
+
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Fant IKKE playerController i BeginPlay"))
+	}
 }
 
 // Called every frame
@@ -32,15 +44,23 @@ void AControls2::Tick(float DeltaTime)
 		FVector mouseDirection;
 		
 		/// vil ha denne i header fila, slik at jeg kan gjøre curseren synlig i BeginPlay funksjonen
-		APlayerController* playerController = Cast<APlayerController>(GetController());
-		playerController->DeprojectMousePositionToWorld(mouseLocation, mouseDirection);
+		if (playerController)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Fant playerController i Tick"))
+
+			playerController->DeprojectMousePositionToWorld(mouseLocation, mouseDirection);
+			FRotator currentCharacterRotation = this->GetActorRotation();
+			FRotator targetRotation = mouseDirection.Rotation();
+
+			FRotator newRotation = FRotator(currentCharacterRotation.Pitch, targetRotation.Yaw, currentCharacterRotation.Roll);
+			this->SetActorRotation(newRotation);
+		}
+
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Fant IKKE playerController i Tick"))
+		}
 		
-
-		FRotator currentCharacterRotation = this->GetActorRotation();
-		FRotator targetRotation = mouseDirection.Rotation();
-
-		FRotator newRotation = FRotator(currentCharacterRotation.Pitch, targetRotation.Yaw, currentCharacterRotation.Roll);
-		this->SetActorRotation(newRotation);
 	}
 }
 
