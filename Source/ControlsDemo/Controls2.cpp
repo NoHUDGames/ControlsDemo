@@ -18,7 +18,7 @@ AControls2::AControls2()
 void AControls2::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	playerController = Cast<APlayerController>(GetController());
 	
 	if (playerController)
@@ -31,6 +31,7 @@ void AControls2::BeginPlay()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Fant IKKE playerController i BeginPlay"))
 	}
+	
 }
 
 // Called every frame
@@ -38,6 +39,11 @@ void AControls2::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	/// funksjonaliteten til koden under er for tiden i blueprint.
+	/// Dersom vi går for denne metoden for movement, vil vi forsøke å konvertere fra blueprint til C++
+	/// Problemet med koden nedenfor var at rotasjonen til spilleren ikke så på karakteren som origo for rotasjonen,
+	/// men heller et par unreal enheter i minus X retning 
+	/*
 	if (Controller != NULL)
 	{
 		FVector mouseLocation;
@@ -62,6 +68,7 @@ void AControls2::Tick(float DeltaTime)
 		}
 		
 	}
+	*/
 }
 
 
@@ -74,8 +81,6 @@ void AControls2::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	PlayerInputComponent->BindAxis("MoveRight", this, &AControls2::MoveRight);
 	PlayerInputComponent->BindAxis("MoveDown", this, &AControls2::MoveBackwards);
 	PlayerInputComponent->BindAxis("MoveLeft", this, &AControls2::MoveLeft);
-	/// PlayerInputComponent->BindAxis("RotateX", this, &AControls2::Rotate);
-	/// PlayerInputComponent->BindAxis("RotateY", this, &AControls2::Rotate);
 
 }
 
